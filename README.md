@@ -5,7 +5,9 @@ A little [AutoHotkey](http://www.autohotkey.com/) script that enables a quake-st
 ## Installation
 
 	install [AutoHotkey](http://www.autohotkey.com/)
-	download and run mintty-quake-console.ahk
+	download mintty-quake-console.ahk
+	change minttyPath to match your system
+	run mintty-quake-console.ahk
 
 ## Usage
 
