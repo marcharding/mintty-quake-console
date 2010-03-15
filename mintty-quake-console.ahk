@@ -34,7 +34,7 @@ else
 {
 	; get last active window
 	WinGet, hw_current, ID, A
-	Run %minttyPath%
+	Run %minttyPath% -
 	WinWait ahk_class mintty
 	; i have no idea why, but ( %borderWith% * 2 ) doesn't work here
 	WinMove, ahk_class mintty, , -%borderWith%, -%menuWith%, A_ScreenWidth + 8, %heightConsoleWindow%
