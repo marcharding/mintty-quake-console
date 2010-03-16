@@ -1,4 +1,5 @@
 #NoEnv
+#SingleInstance force
 SendMode Input
 DetectHiddenWindows, on
 
@@ -25,14 +26,29 @@ menubarHeight := menubarHeight + dragableBorderWith + borderWith * 2
 ; initial height of console window
 heightConsoleWindow := 384
 
-#Escape::
-IfWinExist ahk_class mintty
+init()
 {
-	IfWinActive ahk_class mintty
+	global
+	; get last active window
+	WinGet, hw_current, ID, A
+	Run %minttyPath%, %cygwinBinDir%, Hide, hw_mintty
+	WinWait ahk_pid %hw_mintty%
+	; MsgBox You selected %hw_mintty%
+	; i have no idea why, but ( %dragableBorderWith% * 2 ) doesn't work here
+	WinMove, ahk_pid %hw_mintty%, , -%dragableBorderWith%, -%menubarHeight%, A_ScreenWidth + 8, %heightConsoleWindow%
+	WinShow ahk_pid %hw_mintty%
+	WinActivate ahk_pid %hw_mintty%
+}
+
+toggle()
+{
+	global
+
+	IfWinActive ahk_pid %hw_mintty%
 	{
 		; get latest size^, remembers size when toggeling
-		WinGetPos, minttyX, minttyY, minttyWidth, minttyLastHeight, ahk_class mintty
-		WinHide ahk_class mintty
+		WinGetPos, minttyX, minttyY, minttyWidth, minttyLastHeight, ahk_pid %hw_mintty%
+		WinHide ahk_pid %hw_mintty%
 		; reset focus to last active window
 		WinActivate, ahk_id %hw_current%
 	}
@@ -40,18 +56,19 @@ IfWinExist ahk_class mintty
 	{
 		; get last active window
 		WinGet, hw_current, ID, A
-		WinMove, ahk_class mintty, , -%dragableBorderWith%, -%menubarHeight%, A_ScreenWidth + ( %dragableBorderWith% * 2 ), %minttyLastHeight%
-		WinShow ahk_class mintty
-		WinActivate ahk_class mintty
+		WinMove, ahk_pid %hw_mintty%, , -%dragableBorderWith%, -%menubarHeight%, A_ScreenWidth + ( %dragableBorderWith% * 2 ), %minttyLastHeight%
+		WinShow ahk_pid %hw_mintty%
+		WinActivate ahk_pid %hw_mintty%
 	}
+}
+
+#Escape::
+IfWinExist ahk_pid %hw_mintty%
+{
+	toggle()
 }
 else
 {
-	; get last active window
-	WinGet, hw_current, ID, A
-	Run %minttyPath%, %cygwinBinDir%
-	WinWait ahk_class mintty
-	; i have no idea why, but ( %dragableBorderWith% * 2 ) doesn't work here
-	WinMove, ahk_class mintty, , -%dragableBorderWith%, -%menubarHeight%, A_ScreenWidth + 8, %heightConsoleWindow%
+	init()
 }
 return
