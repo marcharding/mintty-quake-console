@@ -6,9 +6,9 @@ A little [AutoHotkey](http://www.autohotkey.com/) script that enables a quake-st
 
 	install [AutoHotkey](http://www.autohotkey.com/)
 	download mintty-quake-console.ahk
-	change minttyPath to match your system
+	put mintty-quake-console.ahk in the same folder as mintty.exe
 	run mintty-quake-console.ahk
 
 ## Usage
 
-	press windows + ^ to toggle console
+	press win + esc to toggle console
