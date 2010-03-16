@@ -49,7 +49,7 @@ else
 {
 	; get last active window
 	WinGet, hw_current, ID, A
-	Run %minttyPath%,
+	Run %minttyPath%, %cygwinBinDir%
 	WinWait ahk_class mintty
 	; i have no idea why, but ( %dragableBorderWith% * 2 ) doesn't work here
 	WinMove, ahk_class mintty, , -%dragableBorderWith%, -%menubarHeight%, A_ScreenWidth + 8, %heightConsoleWindow%
